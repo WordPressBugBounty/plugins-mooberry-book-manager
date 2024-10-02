@@ -1,0 +1,1 @@
+# plugins-mooberry-book-manager
