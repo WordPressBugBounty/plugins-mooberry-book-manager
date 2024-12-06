@@ -6,7 +6,7 @@
  *  Author: Mooberry Dreams
  *  Author URI: http://www.mooberrydreams.com/
  *  Donate Link: https://www.paypal.me/mooberrydreams/
- *  Version: 4.15.15
+ *  Version: 4.16
  *  Text Domain: mooberry-book-manager
  *  Domain Path: languages
  *
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Plugin version
 if ( ! defined( 'MBDB_PLUGIN_VERSION' ) ) {
 
-	define( 'MBDB_PLUGIN_VERSION', '4.15.15' );
+	define( 'MBDB_PLUGIN_VERSION', '4.16' );
 
 }
 
@@ -81,7 +81,7 @@ function mbdb_activate() {
  */
 //require_once MBDB_PLUGIN_DIR . 'includes/class-mbm-loader.php';
 //require_once MBDB_PLUGIN_DIR . 'includes/class-mooberry-book-manager.php';
-final class Mooberry_Book_Manager {
+#[AllowDynamicProperties] final class Mooberry_Book_Manager {
 	/** Singleton *************************************************************/
 
 	/**
@@ -118,6 +118,7 @@ final class Mooberry_Book_Manager {
 	public $publisher_update_fix_process;
 	public $book_content_update_fix_process;
 	public $publisher_content_update_fix_process;
+	public $admin_notices;
 
 
 	/**
@@ -183,9 +184,8 @@ final class Mooberry_Book_Manager {
 			MBDB()->publisher_update_fix_process = new MBDB_Publisher_Update_Fix_Process();
 			MBDB()->book_content_update_fix_process = new MBDB_Book_Content_Update_Fix_Process();
 
-
-
-
+			self::$instance->admin_notices = new Mooberry_Dreams_Admin_Notice_Manager('mbdb_admin_notice_manager');
+			add_action('admin_notices', array(self::$instance->admin_notices, 'display_notices'));
 
 		}
 
